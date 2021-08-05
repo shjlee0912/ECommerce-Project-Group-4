@@ -1,4 +1,4 @@
-package net.codejava;
+package com.hcl.controller;
 
 import java.util.List;
 
@@ -7,10 +7,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.hcl.model.Cart;
+import com.hcl.model.Product;
+import com.hcl.service.CartService;
+import com.hcl.service.ProductService;
 
 @Controller
 public class AppController {
@@ -51,7 +55,7 @@ public class AppController {
 	
 	@RequestMapping(value = "/cart_save", method = RequestMethod.POST)
 	public String saveCart(@ModelAttribute("cart") Cart cart) {
-		cart.setTotal();
+		cart.computeTotal();
 		cartService.save(cart);
 
 		return "redirect:/user";
@@ -113,7 +117,7 @@ public class AppController {
 		cart.setName(product.getName());
 		cart.setPrice(product.getPrice());
 		cart.setQty(1);
-		cart.setTotal();
+		cart.computeTotal();
 		cartService.save(cart);
 		return "redirect:/user";
 	}

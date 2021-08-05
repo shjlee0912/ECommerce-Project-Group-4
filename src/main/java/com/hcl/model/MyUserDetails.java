@@ -1,4 +1,4 @@
-package net.codejava;
+package com.hcl.model;
 
 import java.util.Arrays;
 import java.util.Collection;

@@ -1,8 +1,10 @@
-package net.codejava;
+package com.hcl.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+
+import com.hcl.model.User;
 
 public interface UserRepository extends CrudRepository<User, Long> {
 

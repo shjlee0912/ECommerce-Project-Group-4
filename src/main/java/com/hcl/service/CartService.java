@@ -1,9 +1,12 @@
-package net.codejava;
+package com.hcl.service;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.hcl.model.Cart;
+import com.hcl.repository.CartRepository;
 
 @Service
 public class CartService {
