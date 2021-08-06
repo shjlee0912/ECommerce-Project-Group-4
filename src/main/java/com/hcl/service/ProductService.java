@@ -1,12 +1,17 @@
 package com.hcl.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.hcl.model.Product;
 import com.hcl.repository.ProductRepository;
+import com.hcl.util.FileUploadUtil;
 
 @Service
 public class ProductService {
@@ -15,6 +20,20 @@ public class ProductService {
 	
 	public List<Product> listAll() {		
 		return repo.findAll();
+	}
+	
+	public void save(Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException {
+		
+		String fileName;
+		if(multipartFile.isEmpty()) {
+			fileName="default.png";
+		} else {
+			fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			String savingDir = "image/";
+			FileUploadUtil.saveFile(savingDir, fileName, multipartFile);
+		}
+		product.setImage(fileName);
+		repo.save(product);
 	}
 	
 	public void save(Product product) {

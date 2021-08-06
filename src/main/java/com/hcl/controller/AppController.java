@@ -53,6 +53,11 @@ public class AppController {
 		return "thank_you";
 	}
 	
+	@RequestMapping(value="/cart_save", method = RequestMethod.GET)
+	public String returnToCart() {
+		return "redirect:/user";
+	}
+	
 	@RequestMapping(value = "/cart_save", method = RequestMethod.POST)
 	public String saveCart(@ModelAttribute("cart") Cart cart) {
 		cart.computeTotal();
