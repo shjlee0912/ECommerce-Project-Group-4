@@ -1,7 +1,7 @@
 package com.hcl.model;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,8 +17,11 @@ public class MyUserDetails implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		SimpleGrantedAuthority authority = new SimpleGrantedAuthority(user.getRole());
-		return Arrays.asList(authority);
+		return user.getRoles().stream().map(r -> new SimpleGrantedAuthority(r.getRole())).collect(Collectors.toSet());
+	}
+	
+	public boolean hasRole(String role) {
+		return user.getRoles().stream().map(r -> r.getRole()).anyMatch(r -> r.equals(role));
 	}
 
 	@Override

@@ -44,14 +44,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers("/edit/**", "/delete/**").hasRole("ADMIN")
+			.antMatchers("/register").permitAll()
 			.anyRequest().authenticated()
 			.and()
-			.formLogin().permitAll()
+			.formLogin().loginPage("/login").defaultSuccessUrl("/", true).permitAll()
 			.and()
 			.logout().permitAll()
 			.and()
-			.exceptionHandling().accessDeniedPage("/403")
-			;
+			.exceptionHandling().accessDeniedPage("/403");
 	}
 	
 	
