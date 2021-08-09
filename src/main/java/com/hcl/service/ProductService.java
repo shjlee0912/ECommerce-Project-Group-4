@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,21 +23,20 @@ public class ProductService {
 		return repo.findAll();
 	}
 	
-	public void save(Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException {
-		
+	public void save(@ModelAttribute("product") Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException {
 		String fileName;
 		if(multipartFile.isEmpty()) {
 			fileName="default.png";
 		} else {
 			fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-			String savingDir = "image/";
+			String savingDir = "src/main/resources/static/image/";
 			FileUploadUtil.saveFile(savingDir, fileName, multipartFile);
 		}
-		product.setImage(fileName);
+		product.setImageName(fileName);
 		repo.save(product);
 	}
 	
-	public void save(Product product) {
+	public void save(@ModelAttribute("product")Product product) {
 		repo.save(product);
 	}
 	

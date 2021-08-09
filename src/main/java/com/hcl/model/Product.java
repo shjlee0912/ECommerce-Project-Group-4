@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,6 @@ public class Product {
 	private String brand;
 	private String madein;
 	private float price;
-	@Column(nullable=true)
-	private String image;
-	
+	@Column(name="image",nullable=true)
+	private String imageName;
 }
