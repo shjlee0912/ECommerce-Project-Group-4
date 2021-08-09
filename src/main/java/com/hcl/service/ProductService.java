@@ -45,6 +45,11 @@ public class ProductService {
 	}
 	
 	public void delete(Long id) {
+		Product prd = repo.findById(id).get();
+		String fileDir = "src/main/resources/static/image/" + prd.getImageName();
+		if(!prd.getImageName().equals("default.png")) {
+			FileUploadUtil.deleteFile(fileDir);
+		}
 		repo.deleteById(id);
 	}
 }

@@ -1,5 +1,6 @@
 package com.hcl.util;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -22,6 +23,14 @@ public class FileUploadUtil {
 			Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
 		} catch (IOException ioe) {
 			throw new IOException("Could not save image file: " + fileName, ioe);
+		}
+	}
+	
+	public static void deleteFile(String fileDir) {
+		Path p = Paths.get(fileDir);
+		if(Files.exists(p)) {
+			File file = new File(fileDir);
+			file.delete();
 		}
 	}
 }
