@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.hcl.model.Cart;
+import com.hcl.model.CartItem;
 import com.hcl.model.Product;
-import com.hcl.service.CartService;
 import com.hcl.service.ProductService;
 
 @Controller
@@ -22,7 +22,7 @@ public class AppController {
 	private ProductService productService;
 
 	@Autowired
-	private CartService cartService;
+	private Cart cart;
 
 	@RequestMapping("/admin")
 	public String viewHomePageAdmin(Model model) {
@@ -33,8 +33,8 @@ public class AppController {
 
 	@RequestMapping("/user")
 	public String viewHomePageUser(Model model) {
-		List<Cart> listCart = cartService.listAll();
-		float subtotal = cartService.getSubtotal();
+		List<CartItem> listCart = cart.listAll();
+		float subtotal = cart.getSubtotal();
 		model.addAttribute("listCart", listCart);
 		model.addAttribute("subtotal", subtotal);
 		return "userindex";
@@ -59,10 +59,8 @@ public class AppController {
 	}
 	
 	@RequestMapping(value = "/cart_save", method = RequestMethod.POST)
-	public String saveCart(@ModelAttribute("cart") Cart cart) {
-		cart.computeTotal();
-		cartService.save(cart);
-
+	public String saveCart(@ModelAttribute("cart") CartItem item) {
+		cart.updateItemQuantity(item);
 		return "redirect:/user";
 	}
 
@@ -101,15 +99,15 @@ public class AppController {
 	public ModelAndView userTinker(@PathVariable(name = "id") Long id) {
 		ModelAndView mav = new ModelAndView("edit_quantity");
 
-		Cart cart = cartService.get(id);
-		mav.addObject("cart", cart);
+		CartItem item = cart.getItemById(id);
+		mav.addObject("item", item);
 
 		return mav;
 	}
 
 	@RequestMapping("/discard/{id}")
 	public String discardProduct(@PathVariable(name = "id") Long id) {
-		cartService.discard(id);
+		cart.deleteItemById(id);
 
 		return "redirect:/user";
 	}
@@ -117,13 +115,12 @@ public class AppController {
 	@RequestMapping(value = "/add/{id}")
 	public String addToCart(@PathVariable(name = "id") Long id){
 		Product product = productService.get(id);
-		Cart cart = new Cart();
-		cart.setId(id);
-		cart.setName(product.getName());
-		cart.setPrice(product.getPrice());
-		cart.setQty(1);
-		cart.computeTotal();
-		cartService.save(cart);
+		CartItem item = new CartItem();
+		item.setId(id);
+		item.setName(product.getName());
+		item.setPrice(product.getPrice());
+		item.setQty(1);
+		cart.addItem(item);
 		return "redirect:/user";
 	}
 }
