@@ -2,6 +2,7 @@ package com.hcl.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,9 +37,31 @@ public class ProductService {
 		repo.save(product);
 	}
 	
-	public void save(@ModelAttribute("product")Product product) {
+	public void edit(@ModelAttribute("product") Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException{
+		String originalFileName;
+		Optional<Product> prd = repo.findById(product.getId());
+		if(prd.isPresent()) {
+			originalFileName = prd.get().getImageName();
+		} else {
+			originalFileName = "default.png";
+		}
+		String savingDir = "src/main/resources/static/image/";
+		if(!multipartFile.isEmpty() && originalFileName!=null) {
+			String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+			if(!originalFileName.equals("default.png")) {
+				FileUploadUtil.deleteFile(savingDir+originalFileName);
+			}
+			FileUploadUtil.saveFile(savingDir, fileName, multipartFile);
+			product.setImageName(fileName);
+		} else {
+			product.setImageName(originalFileName);
+		}
 		repo.save(product);
 	}
+	
+//	public void save(@ModelAttribute("product")Product product) {
+//		repo.save(product);
+//	}
 	
 	public Product get(Long id) {
 		return repo.findById(id).get();

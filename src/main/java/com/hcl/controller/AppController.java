@@ -73,6 +73,12 @@ public class AppController {
 
 		return "redirect:/admin";
 	}
+	
+	@RequestMapping(value="/finish_edit",method=RequestMethod.POST)
+	public String editProduct(@ModelAttribute("product") Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException{
+		productService.edit(product,multipartFile);
+		return "redirect:/admin";
+	}
 
 	@RequestMapping("/edit/{id}")
 	public ModelAndView showEditProductForm(@PathVariable(name = "id") Long id) {
@@ -122,6 +128,7 @@ public class AppController {
 		item.setId(id);
 		item.setName(product.getName());
 		item.setPrice(product.getPrice());
+		item.setImageFileName(product.getImageName());
 		item.setQty(1);
 		cart.addItem(item);
 		return "redirect:/user";

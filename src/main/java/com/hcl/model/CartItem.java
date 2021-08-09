@@ -12,6 +12,7 @@ public class CartItem {
 	private float price;
 	private int qty;
 	private float total;
+	private String imageFileName;
 
 	public float getTotal() {
 		setTotal(this.price * this.qty);

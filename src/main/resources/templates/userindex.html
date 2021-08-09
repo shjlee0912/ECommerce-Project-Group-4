@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>ShopperVue</title>
+	<meta charset="ISO-8859-1">
+	<title>ShopperVue</title>
 </head>
+
 <body>
 	<div align="center">
 		<h3 th:inline="text">Welcome
@@ -21,6 +22,7 @@
 				<tr>
 					<th>Product ID</th>
 					<th>Name</th>
+					<th>Image</th>
 					<th>Price</th>
 					<th>Quantity</th>
 					<th>Total</th>
@@ -34,6 +36,8 @@
 				<tr th:each="cart : ${listCart}">
 					<td th:text="${cart.id}">Product ID</td>
 					<td th:text="${cart.name}">Name</td>
+					<td><img th:src="@{image/{img}(img=${cart.imageFileName})}" 
+				alter="product image" width="100" height="100"/></td>
 					<td th:text="${cart.price}">Price</td>
 					<td th:text="${cart.qty}">Quantity</td>
 					<td th:text="${cart.total}">Total</td>
