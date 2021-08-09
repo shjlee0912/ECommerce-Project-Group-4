@@ -1,27 +1,53 @@
 package com.hcl.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.context.annotation.SessionScope;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
+@Component
+@SessionScope
 @Data
-@NoArgsConstructor
-@Entity
-@Table(name="cart")
 public class Cart {
-	@Id
-	private Long id;
-	private String name;
-	private float price;
-	private int qty;
-	private float total;
-	private float subtotal;
 
-	public void computeTotal() {
-		setTotal(this.price * (float)this.qty);
+	private List<CartItem> items;
+
+	public Cart() {
+		items = new LinkedList<CartItem>();
 	}
 
+	public List<CartItem> listAll() {
+		return new LinkedList(items);
+	}
+
+	public float getSubtotal() {
+		return items.stream().map(i -> (float) i.getTotal()).reduce(0f, (t1, t2) -> t1 + t2);
+	}
+
+	public void addItem(CartItem item) {
+		items.add(item);
+	}
+
+	public void updateItemQuantity(CartItem item) {
+		CartItem toUpdate = getItemById(item.getId());
+		toUpdate.setQty(item.getQty());
+	}
+
+	public CartItem getItemById(long id) {
+		return items.stream().filter(i -> i.getId() == id).findAny().orElse(null);
+	}
+
+	public void deleteItemById(long id) {
+		for (ListIterator<CartItem> itr = items.listIterator(); itr.hasNext();) {
+			CartItem next = itr.next();
+			if (next.getId() == id) {
+				itr.remove();
+				break;
+			}
+		}
+	}
 }
