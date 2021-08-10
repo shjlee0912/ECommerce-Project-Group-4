@@ -32,3 +32,8 @@ HELP.md
 *.png
 *.jpeg
 *.jfif
+
+### product image folder ###
+src/main/resources/static/image/*
+!src/main/resources/static/image/default.png
+

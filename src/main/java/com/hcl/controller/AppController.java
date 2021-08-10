@@ -46,7 +46,7 @@ public class AppController {
 		model.addAttribute("filter", filter);
 		model.addAttribute("endpoint", "/filter_index");
 		model.addAttribute("clear", "/admin");
-		return "query_product";
+		return "index";
 	}
 	
 	@RequestMapping("/user")
