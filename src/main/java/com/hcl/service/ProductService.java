@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.hcl.model.Product;
+import com.hcl.repository.ProductFilterObject;
 import com.hcl.repository.ProductRepository;
 import com.hcl.util.FileUploadUtil;
 
@@ -22,6 +23,13 @@ public class ProductService {
 	
 	public List<Product> listAll() {		
 		return repo.findAll();
+	}
+	
+	public List<Product> listFiltered(ProductFilterObject filter) {
+		if(filter==null) {
+			return listAll();
+		}
+		return repo.getFilteredProducts(filter);
 	}
 	
 	public void save(@ModelAttribute("product") Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException {

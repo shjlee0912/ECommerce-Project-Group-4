@@ -1,0 +1,31 @@
+<!-- "endpoint" model attribute should give the route to go to to handle the filter -->
+<!-- "clear" model attribute should give the route to go to to clear the filter -->
+
+<form action="#" th:action="${endpoint}" th:object="${filter}" method="get">
+	<table border=0 cellpadding=5>
+		<tr>
+			<td><input type="checkbox" th:field="*{usingName}"/></td>
+			<td><label th:for="name">name includes: </label></td>
+			<td><input type="text" id="name" th:field="*{nameIncludes}"/></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" th:field="*{usingMinPrice}"/></td>
+			<td><label th:for="minPrice">min price: </label></td>
+			<td>$<input type="number" min="0" step=0.1 th:field="*{minPrice}"/></td>
+		</tr>
+		<tr>
+			<td><input type="checkbox" th:field="*{usingMaxPrice}"/></td>
+			<td><label th:for="maxPrice">max price: </label></td>
+			<td>$<input type="number" min="0" step=0.1 th:field="*{maxPrice}"/></td>
+		</tr>
+		<tr>
+			<td colspan=3 align="center"><button type="submit">Filter</button></td>
+		</tr>
+	</table>
+</form>
+	
+<form th:action="${clear}" th:method="GET">
+	<button type="submit">Clear Filter</button>
+</form>
+		
+<br>

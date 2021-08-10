@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hcl.model.Cart;
 import com.hcl.model.CartItem;
 import com.hcl.model.Product;
+import com.hcl.repository.ProductFilterObject;
 import com.hcl.service.ProductService;
 
 @Controller
@@ -31,9 +33,22 @@ public class AppController {
 	public String viewHomePageAdmin(Model model) {
 		List<Product> listProducts = productService.listAll();
 		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("filter", new ProductFilterObject());
+		model.addAttribute("endpoint", "/filter_index");
+		model.addAttribute("clear", "/admin");
 		return "index";
 	}
 
+	@GetMapping("/filter_index")
+	public String filterProducts(@ModelAttribute ProductFilterObject filter, Model model) {
+		List<Product> filteredProducts = productService.listFiltered(filter);
+		model.addAttribute("listProducts", filteredProducts);
+		model.addAttribute("filter", filter);
+		model.addAttribute("endpoint", "/filter_index");
+		model.addAttribute("clear", "/admin");
+		return "query_product";
+	}
+	
 	@RequestMapping("/user")
 	public String viewHomePageUser(Model model) {
 		List<CartItem> listCart = cart.listAll();
@@ -55,12 +70,12 @@ public class AppController {
 	public String orderComplete() {
 		return "thank_you";
 	}
-	
-	@RequestMapping(value="/cart_save", method = RequestMethod.GET)
+
+	@RequestMapping(value = "/cart_save", method = RequestMethod.GET)
 	public String returnToCart() {
 		return "redirect:/user";
 	}
-	
+
 	@RequestMapping(value = "/cart_save", method = RequestMethod.POST)
 	public String saveCart(@ModelAttribute("cart") CartItem item) {
 		cart.updateItemQuantity(item);
@@ -68,15 +83,17 @@ public class AppController {
 	}
 
 	@RequestMapping(value = "/product_save", method = RequestMethod.POST)
-	public String saveProduct(@ModelAttribute("product") Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException {
-		productService.save(product,multipartFile);
+	public String saveProduct(@ModelAttribute("product") Product product,
+			@RequestParam("image") MultipartFile multipartFile) throws IOException {
+		productService.save(product, multipartFile);
 
 		return "redirect:/admin";
 	}
-	
-	@RequestMapping(value="/finish_edit",method=RequestMethod.POST)
-	public String editProduct(@ModelAttribute("product") Product product, @RequestParam("image") MultipartFile multipartFile) throws IOException{
-		productService.edit(product,multipartFile);
+
+	@RequestMapping(value = "/finish_edit", method = RequestMethod.POST)
+	public String editProduct(@ModelAttribute("product") Product product,
+			@RequestParam("image") MultipartFile multipartFile) throws IOException {
+		productService.edit(product, multipartFile);
 		return "redirect:/admin";
 	}
 
@@ -101,9 +118,22 @@ public class AppController {
 	public String viewProducts(Model model) {
 		List<Product> listProducts = productService.listAll();
 		model.addAttribute("listProducts", listProducts);
+		model.addAttribute("filter", new ProductFilterObject());
+		model.addAttribute("endpoint", "/filter_browse");
+		model.addAttribute("clear", "/browse");
 		return "query_product";
 	}
-	
+
+	@GetMapping("/filter_browse")
+	public String filterProductBrowse(@ModelAttribute ProductFilterObject filter, Model model) {
+		List<Product> filteredProducts = productService.listFiltered(filter);
+		model.addAttribute("listProducts", filteredProducts);
+		model.addAttribute("filter", filter);
+		model.addAttribute("endpoint", "/filter_browse");
+		model.addAttribute("clear", "/browse");
+		return "query_product";
+	}
+
 	@RequestMapping("/tinker/{id}")
 	public ModelAndView userTinker(@PathVariable(name = "id") Long id) {
 		ModelAndView mav = new ModelAndView("edit_quantity");
@@ -120,9 +150,9 @@ public class AppController {
 
 		return "redirect:/user";
 	}
-	
+
 	@RequestMapping(value = "/add/{id}")
-	public String addToCart(@PathVariable(name = "id") Long id){
+	public String addToCart(@PathVariable(name = "id") Long id) {
 		Product product = productService.get(id);
 		CartItem item = new CartItem();
 		item.setId(id);
