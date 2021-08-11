@@ -155,10 +155,7 @@ public class AppController {
 	public String addToCart(@PathVariable(name = "id") Long id) {
 		Product product = productService.get(id);
 		CartItem item = new CartItem();
-		item.setId(id);
-		item.setName(product.getName());
-		item.setPrice(product.getPrice());
-		item.setImageFileName(product.getImageName());
+		item.setProduct(product);
 		item.setQty(1);
 		cart.addItem(item);
 		return "redirect:/user";
