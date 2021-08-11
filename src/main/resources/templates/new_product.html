@@ -2,14 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
 <title>Create New Product</title>
 </head>
-<body>
+<body class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white"
+	style="background-image: url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?cs=srgb&dl=pexels-henry-%26-co-1939485.jpg&fm=jpg'); background-size: cover;">>
 	<div align="center">	
-		<h1>Create New Product</h1>
+		<h1 style="color:black;">Create New Product</h1>
 		<br/>
 		<form action="#" th:action="@{/product_save}" th:object="${product}" method="post" enctype="multipart/form-data">
-			<table border="0" cellpadding="10">
+			<table border="0" cellpadding="10" class="table table-dark">
 				<tr>
 					<td>Product Name:</td>
 					<td><input type="text" th:field="*{name}" required/></td>
