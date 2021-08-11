@@ -3,21 +3,33 @@
 
 <head>
 	<meta charset="ISO-8859-1">
+	<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+	integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+	crossorigin="anonymous">
 	<title>ShopperVue</title>
 </head>
 
-<body>
+<body
+	class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white"
+	style="background-image: url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?cs=srgb&dl=pexels-henry-%26-co-1939485.jpg&fm=jpg'); background-size: cover;">
 	<div align="center">
-		<h3 th:inline="text">Welcome
+		<h3 th:inline="text" style="color: black;">Welcome
 			[[${#httpServletRequest.remoteUser}]]</h3>
 
 		<form th:action="@{/logout}" method="post">
 			<input type="submit" value="Logout" />
 		</form>
 
-		<h1>ShopperVue</h1>
+		<h1 style="color: black;">ShopperVue</h1>
 		<a href="browse">Add Product to Cart</a> <br /> <br />
-		<table border="1" cellpadding="10">
+		<table border="1" cellpadding="10" class="table table-dark">
 			<thead>
 				<tr>
 					<th>Product ID</th>
@@ -38,9 +50,9 @@
 					<td th:text="${cart.name}">Name</td>
 					<td><img th:src="@{image/{img}(img=${cart.imageFileName})}" 
 				alter="product image" width="100" height="100"/></td>
-					<td th:text="${cart.price}">Price</td>
+					<td th:text='${T(java.lang.String).format("$%.2f",cart.price)}'>Price</td>
 					<td th:text="${cart.qty}">Quantity</td>
-					<td th:text="${cart.total}">Total</td>
+					<td th:text='${T(java.lang.String).format("$%.2f",cart.total)}'>Total</td>
 					<td sec:authorize="hasRole('ROLE_USER')"><a
 						th:href="@{'/tinker/' + ${cart.id}}">Edit Quantity</a>
 						&nbsp;&nbsp;&nbsp;&nbsp; <a th:href="@{'/discard/' + ${cart.id}}">Delete</a>
@@ -51,7 +63,7 @@
 
 	</div>
 	<div align="right">
-		<table border="1">
+		<table border="1" class="table table-dark">
 			<thead>
 				<tr>
 					<th>Order Subtotal</th>
