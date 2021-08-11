@@ -3,24 +3,29 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
 <title>ShopperVue</title>
 </head>
-<body>
-<div align="center">	
-	<h3 th:inline="text">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
+<body class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white"
+	style="background-image: url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?cs=srgb&dl=pexels-henry-%26-co-1939485.jpg&fm=jpg'); background-size: cover;">>
+<div align="center">
+	<h3 th:inline="text" style="color:black;">Welcome [[${#httpServletRequest.remoteUser}]]</h3>
 		
 	<form th:action="@{/logout}" method="post">
 		<input type="submit" value="Logout" />
 	</form>
 	
-	<h1>ShopperVue</h1>
+	<h1 style="color:black;">ShopperVue</h1>
 	<a href="user">Return to Cart</a>
 	
 	<br/><br/>
 	
 	<div th:insert="filter_form"></div>
 
-	<table border="1" cellpadding="10">
+	<table border="1" cellpadding="10" class="table table-dark">
 		<thead>
 			<tr>
 				<th>Product ID</th>
@@ -38,7 +43,7 @@
 				<td th:text="${product.name}">Name</td>
 				<td><img th:src="@{image/{img}(img=${product.imageName})}" 
 				alter="product image" width="100" height="100"/></td>
-				<td th:text="${product.price}">Price</td>
+				<td th:text='${T(java.lang.String).format("$%.2f",product.price)}'>Price</td>
 				<td sec:authorize="hasRole('ROLE_USER')">
 					<a th:href="@{'/add/' + ${product.id}}">Add</a>
 					&nbsp;&nbsp;&nbsp;&nbsp;
