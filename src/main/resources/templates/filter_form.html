@@ -1,48 +1,37 @@
 <!-- "endpoint" model attribute should give the route to go to to handle the filter -->
 <!-- "clear" model attribute should give the route to go to to clear the filter -->
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="ISO-8859-1">
-<link rel="stylesheet"
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
-<title>Product Filter</title>
-</head>
-<body
-	class="bg-image p-5 text-center shadow-1-strong rounded mb-5 text-white"
-	style="background-image: url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg?cs=srgb&dl=pexels-henry-%26-co-1939485.jpg&fm=jpg'); background-size: cover;">
-	>
-	<div align="center">
-		<h1 style="color: black;">Filter for Products</h1>
-		<br />
-<form action="#" th:action="${endpoint}" th:object="${filter}" method="get">
+
+<div align="center">
+	<h1 style="color: black;">Filter for Products</h1>
+	<br />
 	<table border=0 cellpadding=5 class="table table-dark">
+		<form action="#" th:action="${endpoint}" th:object="${filter}" method="get">
+			<tr>
+				<td><input type="checkbox" th:field="*{usingName}" /></td>
+				<td><label th:for="name">name includes: </label></td>
+				<td><input type="text" id="name" th:field="*{nameIncludes}" /></td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" th:field="*{usingMinPrice}" /></td>
+				<td><label th:for="minPrice">min price: </label></td>
+				<td>$<input type="number" min="0" step=0.1 th:field="*{minPrice}" /></td>
+			</tr>
+			<tr>
+				<td><input type="checkbox" th:field="*{usingMaxPrice}" /></td>
+				<td><label th:for="maxPrice">max price: </label></td>
+				<td>$<input type="number" min="0" step=0.1 th:field="*{maxPrice}" /></td>
+			</tr>
+			<tr>
+				<td colspan=3 align="center"><button type="submit">Filter</button></td>
+			</tr>
+		</form>
 		<tr>
-			<td><input type="checkbox" th:field="*{usingName}"/></td>
-			<td><label th:for="name">name includes: </label></td>
-			<td><input type="text" id="name" th:field="*{nameIncludes}"/></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" th:field="*{usingMinPrice}"/></td>
-			<td><label th:for="minPrice">min price: </label></td>
-			<td>$<input type="number" min="0" step=0.1 th:field="*{minPrice}"/></td>
-		</tr>
-		<tr>
-			<td><input type="checkbox" th:field="*{usingMaxPrice}"/></td>
-			<td><label th:for="maxPrice">max price: </label></td>
-			<td>$<input type="number" min="0" step=0.1 th:field="*{maxPrice}"/></td>
-		</tr>
-		<tr>
-			<td colspan=3 align="center"><button type="submit">Filter</button></td>
+			<td colspan=3 align="center">
+				<form th:action="${clear}" th:method="GET">
+					<button type="submit">Clear Filter</button>
+				</form>
+			</td>
 		</tr>
 	</table>
-</form>
-	
-<form th:action="${clear}" th:method="GET">
-	<button type="submit">Clear Filter</button>
-</form>
-		</div>
-</body>
-</html>
+
+</div>
