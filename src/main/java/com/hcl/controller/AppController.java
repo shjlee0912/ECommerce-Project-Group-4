@@ -29,7 +29,7 @@ public class AppController {
 	@Autowired
 	private Cart cart;
 
-	@RequestMapping("/admin")
+	@RequestMapping(value="/admin",method=RequestMethod.GET)
 	public String viewHomePageAdmin(Model model) {
 		List<Product> listProducts = productService.listAll();
 		model.addAttribute("listProducts", listProducts);
@@ -49,7 +49,7 @@ public class AppController {
 		return "index";
 	}
 	
-	@RequestMapping("/user")
+	@RequestMapping(value="/user", method=RequestMethod.GET)
 	public String viewHomePageUser(Model model) {
 		List<CartItem> listCart = cart.listAll();
 		float subtotal = cart.getSubtotal();
@@ -58,7 +58,7 @@ public class AppController {
 		return "userindex";
 	}
 
-	@RequestMapping("/new")
+	@RequestMapping(value="/new",method=RequestMethod.GET)
 	public String showNewProductForm(Model model) {
 		Product product = new Product();
 		model.addAttribute("product", product);
@@ -66,7 +66,7 @@ public class AppController {
 		return "new_product";
 	}
 
-	@RequestMapping("/order_complete")
+	@RequestMapping(value="/order_complete",method=RequestMethod.GET)
 	public String orderComplete() {
 		return "thank_you";
 	}
@@ -97,7 +97,7 @@ public class AppController {
 		return "redirect:/admin";
 	}
 
-	@RequestMapping("/edit/{id}")
+	@RequestMapping(value="/edit/{id}",method=RequestMethod.GET)
 	public ModelAndView showEditProductForm(@PathVariable(name = "id") Long id) {
 		ModelAndView mav = new ModelAndView("edit_product");
 
@@ -107,14 +107,14 @@ public class AppController {
 		return mav;
 	}
 
-	@RequestMapping("/delete/{id}")
+	@RequestMapping(value="/delete/{id}",method=RequestMethod.GET)
 	public String deleteProduct(@PathVariable(name = "id") Long id) {
 		productService.delete(id);
 
 		return "redirect:/admin";
 	}
 
-	@RequestMapping("/browse")
+	@RequestMapping(value="/browse",method=RequestMethod.GET)
 	public String viewProducts(Model model) {
 		List<Product> listProducts = productService.listAll();
 		model.addAttribute("listProducts", listProducts);
@@ -134,7 +134,7 @@ public class AppController {
 		return "query_product";
 	}
 
-	@RequestMapping("/tinker/{id}")
+	@RequestMapping(value="/tinker/{id}",method=RequestMethod.GET)
 	public ModelAndView userTinker(@PathVariable(name = "id") Long id) {
 		ModelAndView mav = new ModelAndView("edit_quantity");
 
@@ -144,14 +144,14 @@ public class AppController {
 		return mav;
 	}
 
-	@RequestMapping("/discard/{id}")
+	@RequestMapping(value="/discard/{id}",method=RequestMethod.GET)
 	public String discardProduct(@PathVariable(name = "id") Long id) {
 		cart.deleteItemById(id);
 
 		return "redirect:/user";
 	}
 
-	@RequestMapping(value = "/add/{id}")
+	@RequestMapping(value = "/add/{id}",method=RequestMethod.GET)
 	public String addToCart(@PathVariable(name = "id") Long id) {
 		Product product = productService.get(id);
 		CartItem item = new CartItem();
