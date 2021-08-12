@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.hcl.model.Product;
 
-public class ProductRepositoryImpl implements ProductRepositoryFiltered {
+public class ProductRepositoryFilteredImpl implements ProductRepositoryFiltered {
 
 	@Autowired
 	EntityManager em;
