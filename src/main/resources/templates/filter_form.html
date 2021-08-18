@@ -4,34 +4,55 @@
 <div align="center">
 	<h1 style="color: black;">Filter for Products</h1>
 	<br />
-	<table border=0 cellpadding=5 class="table table-dark">
-		<form action="#" th:action="${endpoint}" th:object="${filter}" method="get">
-			<tr>
-				<td><input type="checkbox" th:field="*{usingName}" /></td>
-				<td><label th:for="name">name includes: </label></td>
-				<td><input type="text" id="name" th:field="*{nameIncludes}" /></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" th:field="*{usingMinPrice}" /></td>
-				<td><label th:for="minPrice">min price: </label></td>
-				<td>$<input type="number" min="0" step=0.1 th:field="*{minPrice}" /></td>
-			</tr>
-			<tr>
-				<td><input type="checkbox" th:field="*{usingMaxPrice}" /></td>
-				<td><label th:for="maxPrice">max price: </label></td>
-				<td>$<input type="number" min="0" step=0.1 th:field="*{maxPrice}" /></td>
-			</tr>
-			<tr>
-				<td colspan=3 align="center"><button type="submit">Filter</button></td>
-			</tr>
-		</form>
-		<tr>
-			<td colspan=3 align="center">
-				<form th:action="${clear}" th:method="GET">
-					<button type="submit">Clear Filter</button>
-				</form>
-			</td>
-		</tr>
-	</table>
+		<div class="container-fluid">
+			<form class="mb-3" action="#" th:action="${endpoint}" th:object="${filter}" method="get">
+				<div class="form-row justify-content-center align-items-baseline">
+					<div class="col-1">
+						<div class="custom-control custom-switch">
+							<input type="checkbox" class="custom-control-input" id="useName" th:field="*{usingName}" />
+							<label class="custom-control-label" for="useName"></label>
+						</div>
+					</div>
+					<div class="col-10 col-sm-8 col-md-6 col-lg-4">
+						<div class="input-group mb-3">
+							<span class="input-group-text">name includes: </span>
+							<input type="text" class="form-control" id="name" th:field="*{nameIncludes}" />
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-row justify-content-center align-items-baseline">
+					<div class="col-1">
+						<div class="custom-control custom-switch">
+							<input type="checkbox" class="custom-control-input" id="useMinPrice" th:field="*{usingMinPrice}" />
+							<label class="custom-control-label" for="useMinPrice"></label>
+						</div>
+					</div>
+					<div class="col-10 col-sm-8 col-md-6 col-lg-4">
+						<div class="input-group mb-3">
+							<span class="input-group-text">min price: $</span>
+							<input type="number" class="form-control" min="0" step=0.01 th:field="*{minPrice}" />
+						</div>
+					</div>
+				</div>
+				
+				<div class="form-row justify-content-center align-items-baseline">
+					<div class="col-1">
+						<div class="custom-control custom-switch">
+							<input type="checkbox" class="custom-control-input" id="useMaxPrice" th:field="*{usingMaxPrice}" /> </span>
+							<label class="custom-control-label" for="useMaxPrice"></label>
+						</div>
+					</div>
+					<div class="col-10 col-sm-8 col-md-6 col-lg-4">
+						<div class="input-group mb-3">
+							<span class="input-group-text">max price: $</span>
+							<input type="number" class="form-control" min="0" step=0.01 th:field="*{maxPrice}" />
+						</div>
+					</div>
+				</div>
+				<button class="btn btn-success" type="submit">Filter</button>
+			</form>
+			<a class="btn btn-info" th:href="${clear}">Clear Filter</a>
+		</div>
 
 </div>
